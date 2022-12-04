@@ -5,6 +5,7 @@ import (
     "os"
     "strings"
     "strconv"
+	"github.com/Kaiser784/Proteus/modules"
 )
 
 const (
