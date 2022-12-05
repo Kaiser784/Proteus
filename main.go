@@ -4,7 +4,6 @@ package main
 import (
 	"fmt"
 	"os"
-
 	"github.com/Kaiser784/Proteus/config"
 	// "strings"
 	// "strconv"
@@ -21,7 +20,7 @@ func main() {
         return
     }
 
-	fmt.Println(holder.Print("Module is working"))
+	holder.Print("Module is working")
 
     // Check if each file exists
     for _, fileName := range os.Args[1:] {
