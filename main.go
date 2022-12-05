@@ -21,7 +21,7 @@ func main() {
         return
     }
 
-	fmt.Println(holder.Print())
+	fmt.Println(holder.Print("Module is working"))
 
     // Check if each file exists
     for _, fileName := range os.Args[1:] {

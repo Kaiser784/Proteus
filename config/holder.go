@@ -2,6 +2,6 @@ package holder
 
 import "fmt"
 
-func Print() {
-	fmt.Println("Module is working")
+func Print(s string) {
+	fmt.Println(s)
 }
