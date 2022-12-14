@@ -5,29 +5,56 @@ import (
 	"fmt"
 	"os"
 	"github.com/Kaiser784/Proteus/config"
+    "flag"
 	// "strings"
 	// "strconv"
 )
 
+
 func main() {
-    // Check if at least one file name was provided as an argument
-    if len(os.Args) < 2 {
-        fmt.Println("Please provide at least one file name as an argument.")
-        return
-    }
-	if len(os.Args) < 3 {
-        fmt.Println("Please provide at least 2 files to generate a polyglot")
+
+    var inputFlag StringArray
+	flag.Var(&inputFlag, "input", "the input files")
+    outputFlag := flag.String("output", "", "the output file")
+    flag.Parse()
+    
+    if *outputFlag == "" {
+		// If not, throw an error
+		fmt.Println("Error: missing output flag")
+		return
+	}
+
+    if len(inputFlag) < 2 {
+        fmt.Println("Input atleast 2 files to create a polyglot")
+        fmt.Println("input the files separately")
+        fmt.Println("--input file1 --input file2")
         return
     }
 
 	holder.Print("Module is working")
 
+    fmt.Println("Output file:", *outputFlag)
+
     // Check if each file exists
-    for _, fileName := range os.Args[1:] {
+    for _, fileName := range inputFlag {
         if _, err := os.Stat(fileName); os.IsNotExist(err) {
-            fmt.Printf("File not found: %s\n", fileName)
+            fmt.Printf("Input File not found: %s\n", fileName)
         } else {
-            fmt.Printf("File found: %s\n", fileName)
+            fmt.Printf("Input File found: %s\n", fileName)
         }
     }
+}
+
+// StringArray is a custom type that satisfies the flag.Value interface
+type StringArray []string
+
+// String returns a string representation of the StringArray
+func (s *StringArray) String() string {
+	return fmt.Sprintf("%v", *s)
+}
+
+// Set adds a new string to the StringArray
+func (s *StringArray) Set(value string) error {
+	*s = append(*s, value)
+	return nil
 }
