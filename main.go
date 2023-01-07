@@ -1,60 +1,68 @@
 package main
 
-// import "github.com/Kaiser784/Proteus/config"
 import (
 	"fmt"
+	"log"
 	"os"
+	"path/filepath"
+
 	"github.com/Kaiser784/Proteus/config"
-    "flag"
+	"github.com/urfave/cli/v2"
 	// "strings"
 	// "strconv"
 )
 
+var outp string
+var inp []string
+
+func getExt() {
+    for _,file := range inp {
+        fmt.Println(file, "-", filepath.Ext(file))
+    }
+}
+
+func generate() {
+    holder.Print("\nModule is working inside generate function\n")
+    getExt()
+}
+
 
 func main() {
+    app := &cli.App{
+		Name:  "Proteus",
+        Usage: "Generates a file polyglot from the given input files",
+        Flags: []cli.Flag{
+            &cli.StringFlag{
+                Name:    "output",
+                Aliases: []string{"o"},
+                Usage:   "Output `filename`",
+				Destination: &outp,
+				Required: true,
+            },
+            &cli.StringSliceFlag{
+                Name:    "input",
+                Aliases: []string{"i"},
+                Usage:   "Input `file.txt, file.pdf`",
+				Required: true,
+            },
+        },
+        Action: func(cli *cli.Context) error {
+            // fmt.Println("URL - ", host)
+            fmt.Println("Output File:", outp);
+            inp = cli.StringSlice("input")
+            fmt.Println(inp)
 
-    var inputFlag StringArray
-	flag.Var(&inputFlag, "input", "the input files")
-    outputFlag := flag.String("output", "", "the output file")
-    flag.Parse()
+            generate()
+
+            return nil
+        },
+        HideHelpCommand: true,
+    }
+
+
+    if err := app.Run(os.Args); err != nil {
+        log.Fatal(err)
+    }
+
     
-    if *outputFlag == "" {
-		// If not, throw an error
-		fmt.Println("Error: missing output flag")
-		return
-	}
-
-    if len(inputFlag) < 2 {
-        fmt.Println("Input atleast 2 files to create a polyglot")
-        fmt.Println("input the files separately")
-        fmt.Println("--input file1 --input file2")
-        return
-    }
-
-	holder.Print("Module is working")
-
-    fmt.Println("Output file:", *outputFlag)
-
-    // Check if each file exists
-    for _, fileName := range inputFlag {
-        if _, err := os.Stat(fileName); os.IsNotExist(err) {
-            fmt.Printf("Input File not found: %s\n", fileName)
-        } else {
-            fmt.Printf("Input File found: %s\n", fileName)
-        }
-    }
-}
-
-// StringArray is a custom type that satisfies the flag.Value interface
-type StringArray []string
-
-// String returns a string representation of the StringArray
-func (s *StringArray) String() string {
-	return fmt.Sprintf("%v", *s)
-}
-
-// Set adds a new string to the StringArray
-func (s *StringArray) Set(value string) error {
-	*s = append(*s, value)
-	return nil
 }
