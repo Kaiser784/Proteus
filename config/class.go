@@ -1,7 +1,7 @@
 package class
 
 import (
-	"fmt"
+	// "fmt"
 	// "github.com/Kaiser784/Proteus/config"
 )
 
@@ -9,8 +9,4 @@ type Ftype struct {
 	DESC string
 	TYPE string
 	MAGIC string
-}
-
-func class() {
-	fmt.Println("Class working")
 }

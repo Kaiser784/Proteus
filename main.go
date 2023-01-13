@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/Kaiser784/Proteus/config"
-    "github.com/Kaiser784/Proteus/config/parsers"
+    "github.com/Kaiser784/Proteus/parsers"
 	"github.com/urfave/cli/v2"
 	// "strings"
 	// "strconv"
@@ -15,6 +15,8 @@ import (
 
 var outp string
 var inp []string
+var PARSERS = []string{"JPG", "PDF"}
+
 
 func getExt() {
     for _,file := range inp {
@@ -24,7 +26,12 @@ func getExt() {
 
 func check() {
     var ftype class.Ftype
-    jpg.parse(ftype)
+    // for p := range PARSERS {
+    //     parsers.PARSERS[p](ftype)
+    //     // fmt.Println(PARSERS[p])
+    // }
+    parsers.JPG(ftype)
+    parsers.PDF(ftype)
 }
 
 func main() {
