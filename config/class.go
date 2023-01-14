@@ -17,6 +17,7 @@ type AbstractFtype struct {
 	parasite_s int64
 }
 
+// constructor for abstract ftype
 func NewFtype(DESC string, TYPE string, MAGIC []byte, data string) *AbstractFtype {
 	return &AbstractFtype{
 		DESC:  DESC,

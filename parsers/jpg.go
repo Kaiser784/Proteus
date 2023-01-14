@@ -8,6 +8,7 @@ type JPG struct {
 	Ftype FtypeWrapper
 }
 
+// constructor for jpg
 func NewJpg(data string) *JPG {
 	const (
 		DESC  = "JFIF / JPEG File Interchange Format"

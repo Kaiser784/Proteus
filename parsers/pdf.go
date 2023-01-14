@@ -13,6 +13,7 @@ type PDF struct {
 	Ftype FtypeWrapper
 }
 
+// constructor for pdf
 func NewPdf(data string) *PDF {
 	const (
 		DESC  = "Portable Document Format"
@@ -24,6 +25,7 @@ func NewPdf(data string) *PDF {
 	f := *class.NewFtype(DESC, TYPE, magic, data)
 
 	return &PDF{
+		//refer to https://stackoverflow.com/questions/40823315/x-does-not-implement-y-method-has-a-pointer-receiver
 		Ftype: &f,
 	}
 }
