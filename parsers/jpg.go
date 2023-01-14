@@ -5,7 +5,7 @@ import (
 )
 
 type JPG struct {
-	Ftype FtypeWrapper
+	Ftype class.AbstractFtype
 }
 
 // constructor for jpg
@@ -17,9 +17,8 @@ func NewJpg(data string) *JPG {
 	)
 
 	magic := []byte(MAGIC)
-	f := *class.NewFtype(DESC, TYPE, magic, data)
 
 	return &JPG{
-		Ftype: &f,
+		Ftype: *class.NewFtype(DESC, TYPE, magic, data),
 	}
 }

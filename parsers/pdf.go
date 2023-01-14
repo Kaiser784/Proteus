@@ -4,13 +4,8 @@ import (
 	class "github.com/Kaiser784/Proteus/config"
 )
 
-type FtypeWrapper interface {
-	Identify() bool
-	ShowDetails()
-}
-
 type PDF struct {
-	Ftype FtypeWrapper
+	Ftype class.AbstractFtype
 }
 
 // constructor for pdf
@@ -22,10 +17,8 @@ func NewPdf(data string) *PDF {
 	)
 
 	magic := []byte(MAGIC)
-	f := *class.NewFtype(DESC, TYPE, magic, data)
 
 	return &PDF{
-		//refer to https://stackoverflow.com/questions/40823315/x-does-not-implement-y-method-has-a-pointer-receiver
-		Ftype: &f,
+		Ftype: *class.NewFtype(DESC, TYPE, magic, data),
 	}
 }
