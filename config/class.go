@@ -1,6 +1,9 @@
 package config
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+)
 
 type AbstractFtype struct {
 	DESC  string
@@ -28,7 +31,7 @@ func NewFtype(DESC string, TYPE string, MAGIC []byte, data string) *AbstractFtyp
 }
 
 func (ftype *AbstractFtype) Identify() bool {
-	return true
+	return bytes.HasPrefix([]byte(ftype.data), ftype.MAGIC)
 }
 
 func (ftype *AbstractFtype) ShowDetails() {
