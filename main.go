@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	class "github.com/Kaiser784/Proteus/config"
 	"github.com/Kaiser784/Proteus/parsers"
 	"github.com/urfave/cli/v2"
 	// "strings"
@@ -22,16 +23,23 @@ func getExt() {
 	}
 }
 
+func getFtypeObject(fileExtension string, data string) (*class.AbstractFtype, bool) {
+	switch fileExtension {
+	case "PDF":
+		return parsers.NewPdf(data), false
+	case "JPG":
+		return parsers.NewJpg(data), false
+	}
+	return nil, true
+}
+
 func check() {
-	// var ftype class.Ftype
-	// for p := range PARSERS {
-	//     parsers.PARSERS[p](ftype)
-	//     // fmt.Println(PARSERS[p])
-	// }
-	// parsers.JPG(ftype)
-	// parsers.PDF(ftype)
-	c := *parsers.NewPdf("hello!")
-	c.Ftype.ShowDetails()
+	var data string = "Hello"
+
+	ftype, error := getFtypeObject("PDF", data)
+	if !error {
+		fmt.Println((ftype))
+	}
 }
 
 func main() {
