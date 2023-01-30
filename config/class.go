@@ -10,7 +10,7 @@ type AbstractFtype struct {
 	TYPE  string
 	MAGIC []byte
 
-	data       []byte
+	DATA       []byte
 	cut        string
 	prewrap    int64
 	postwrap   int64
@@ -26,12 +26,12 @@ func NewFtype(DESC string, TYPE string, MAGIC []byte, data []byte) *AbstractFtyp
 		DESC:  DESC,
 		TYPE:  TYPE,
 		MAGIC: MAGIC,
-		data:  data,
+		DATA:  data,
 	}
 }
 
 func (ftype *AbstractFtype) Identify() bool {
-	return bytes.HasPrefix(ftype.data, ftype.MAGIC)
+	return bytes.HasPrefix(ftype.DATA, ftype.MAGIC)
 }
 
 func (ftype *AbstractFtype) ShowDetails() {

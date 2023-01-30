@@ -1,13 +1,14 @@
 package main
 
 import (
+	"bufio"
+	"errors"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
-	"bufio"
-	"io"
-	"errors"
 
 	class "github.com/Kaiser784/Proteus/config"
 	"github.com/Kaiser784/Proteus/parsers"
@@ -58,26 +59,47 @@ func getFtypeObject(fileExtension string, data []byte) (*class.AbstractFtype, bo
 	return nil, true
 }
 
+func writeFile(data []byte, ext string) {
+
+	name := "polyglot."+ext
+	err := ioutil.WriteFile(name, data, 0644)
+	if err != nil {
+        panic(err)
+    }
+}
+
+func stack(f1 *class.AbstractFtype, f2 *class.AbstractFtype, fn1 string, fn2 string) {
+	fmt.Println("Stack : concatenation of File1 type", f1.TYPE,"and File2 type", f2.TYPE)
+	data := append(f1.DATA, f2.DATA...)
+	fmt.Println(fn1)
+	fmt.Println(fn2)
+
+	ext := f1.TYPE + "." +f2.TYPE
+	writeFile(data, ext)
+}
+
 func check() {
 
 	fdata1 := getByteFile(inp[0])
 	fdata2 := getByteFile(inp[1])
 
-	var ftype1 string
-	var ftype2 string
+	var ftype1 *class.AbstractFtype
+	var ftype2 *class.AbstractFtype
 
 	for _, ext := range PARSERS {
 		f1, _ := getFtypeObject(ext, fdata1)
 		if f1.Identify() {
-			ftype1 = ext
+			ftype1 = f1
 		}
 		f2, _ := getFtypeObject(ext, fdata2)
 		if f2.Identify() {
-			ftype2 = ext
+			ftype2 = f2
 		}
 	}
-	fmt.Println("ftype-1 - ", ftype1)
-	fmt.Println("ftype-2 - ", ftype2)
+	fmt.Println("ftype-1 - ", ftype1.TYPE)
+	fmt.Println("ftype-2 - ", ftype2.TYPE)
+
+	stack(ftype1, ftype2, inp[0], inp[1])
 }
 
 func main() {
