@@ -5,6 +5,9 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"bufio"
+	"io"
+	"errors"
 
 	class "github.com/Kaiser784/Proteus/config"
 	"github.com/Kaiser784/Proteus/parsers"
@@ -23,7 +26,29 @@ func getExt() {
 	}
 }
 
-func getFtypeObject(fileExtension string, data string) (*class.AbstractFtype, bool) {
+func getByteFile(filename string) []byte{
+	f, _ := os.Open(filename)
+	br := bufio.NewReader(f)
+	fdata := []byte("")
+
+	for {
+		b,err := br.ReadByte()
+		fdata = append(fdata, b)
+
+		if err != nil && !errors.Is(err, io.EOF) {
+			fmt.Println(err)
+			break
+		}
+	
+		if err != nil {
+			// end of file
+			break
+		}
+	}
+	return fdata
+}
+
+func getFtypeObject(fileExtension string, data []byte) (*class.AbstractFtype, bool) {
 	switch fileExtension {
 	case "PDF":
 		return parsers.NewPdf(data), false
@@ -34,12 +59,25 @@ func getFtypeObject(fileExtension string, data string) (*class.AbstractFtype, bo
 }
 
 func check() {
-	var data string = "Hello"
 
-	ftype, error := getFtypeObject("PDF", data)
-	if !error {
-		fmt.Println((ftype))
+	fdata1 := getByteFile(inp[0])
+	fdata2 := getByteFile(inp[1])
+
+	var ftype1 string
+	var ftype2 string
+
+	for _, ext := range PARSERS {
+		f1, _ := getFtypeObject(ext, fdata1)
+		if f1.Identify() {
+			ftype1 = ext
+		}
+		f2, _ := getFtypeObject(ext, fdata2)
+		if f2.Identify() {
+			ftype2 = ext
+		}
 	}
+	fmt.Println("ftype-1 - ", ftype1)
+	fmt.Println("ftype-2 - ", ftype2)
 }
 
 func main() {

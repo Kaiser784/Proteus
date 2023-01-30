@@ -5,7 +5,7 @@ import (
 )
 
 // constructor for jpg
-func NewJpg(data string) *class.AbstractFtype {
+func NewJpg(data []byte) *class.AbstractFtype {
 	const (
 		DESC  = "JFIF / JPEG File Interchange Format"
 		TYPE  = "JPG"

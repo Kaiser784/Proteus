@@ -5,7 +5,7 @@ import (
 )
 
 // constructor for pdf
-func NewPdf(data string) *class.AbstractFtype {
+func NewPdf(data []byte) *class.AbstractFtype {
 	const (
 		DESC  = "Portable Document Format"
 		TYPE  = "PDF"
